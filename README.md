@@ -9,6 +9,7 @@
 
 ## Features
 - 🎥 True HTTP Live Streaming support (Forget the #4000 error code)
+- 📦 Periodically check for drops and claim them
 - 🔐 Cookie-based login
 - 📜 Auto accept cookie policy
 - 👨‍💻 The choice of a random streamer with drop-enabled tag
@@ -26,7 +27,7 @@
  - Windows or Linux OS
  - Network connection (Should be obvious...)
  - [Nodejs](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm)
- 
+
 ## Installation
 🎥 [Tutorial video by Ziyad](https://youtu.be/bwzv7wT44Ds) 🎥
 ### Windows
@@ -100,7 +101,7 @@ Yes, of course:
 ```javascript
 const proxy = ""; // "ip:port" By https://github.com/Jan710
 ```
-[Go to code](https://github.com/D3vl0per/Valorant-watcher/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L25)  
+[Go to code](https://github.com/D3vl0per/Valorant-watcher/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L25)
 
 OR
 
@@ -118,7 +119,7 @@ const browserScreenshot = false;
 ## Donation
 Please donate to keep alive this project!
 
-Especially the drop farmers who gather tons of money with this software!🤓  
+Especially the drop farmers who gather tons of money with this software!🤓
 
 <a href="https://www.buymeacoffee.com/D3v" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 

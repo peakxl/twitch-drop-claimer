@@ -1,16 +1,16 @@
 {
-  "name": "valorant-watcher",
-  "version": "2.0.5",
-  "description": "Automatic watching the twitch to get valorant drop",
+  "name": "twitch-watcher",
+  "version": "2.0.6",
+  "description": "Automatic watching the Twitch to get drops",
   "main": "app.js",
   "scripts": {
     "start": "node app"
   },
-  "author": "D3v <info@zsmark.dev>",
+  "author": "frosty5689",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/D3vl0per/Valorant-watcher"
+    "url": "https://github.com/frosty5689/Twitch-watcher"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",

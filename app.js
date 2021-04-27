@@ -14,6 +14,8 @@ var streamers = null;
 const configPath = './config.json'
 const screenshotFolder = './screenshots/';
 const baseUrl = 'https://www.twitch.tv/';
+const inventoryUrl = `${baseUrl}drops/inventory`;
+
 const userAgent = (process.env.userAgent || 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
 const streamersUrl = (process.env.streamersUrl || 'https://www.twitch.tv/directory/game/VALORANT?tl=c2542d6d-cd10-4532-919b-3d19f30a768b');
 
@@ -22,6 +24,10 @@ const scrollTimes = (Number(process.env.scrollTimes) || 5);
 
 const minWatching = (Number(process.env.minWatching) || 15); // Minutes
 const maxWatching = (Number(process.env.maxWatching) || 30); //Minutes
+
+const noChannelFoundWait = (Number(process.env.noChannelFoundWait) || 5); // Minutes
+
+const checkForDrops = (process.env.checkForDrops || true);
 
 const streamerListRefresh = (Number(process.env.streamerListRefresh) || 1);
 const streamerListRefreshUnit = (process.env.streamerListRefreshUnit || 'hour'); //https://day.js.org/docs/en/manipulate/add
@@ -60,6 +66,8 @@ const streamPauseQuery = 'button[data-a-target="player-play-pause-button"]';
 const streamSettingsQuery = '[data-a-target="player-settings-button"]';
 const streamQualitySettingQuery = '[data-a-target="player-settings-menu-item-quality"]';
 const streamQualityQuery = 'input[data-a-target="tw-radio"]';
+const campaignInProgressDropClaimQuery = '[data-test-selector="DropsCampaignInProgressRewardPresentation-claim-button"]';
+
 // ========================================== CONFIG SECTION =================================================================
 
 
@@ -85,76 +93,88 @@ async function viewRandomPage(browser, page) {
       let watch;
 
       if (watchAlwaysTopStreamer) {
-          watch = streamers[0];
+        watch = streamers[0];
       } else {
-          watch = streamers[getRandomInt(0, streamers.length - 1)]; //https://github.com/D3vl0per/Valorant-watcher/issues/27
+        watch = streamers[getRandomInt(0, streamers.length - 1)]; //https://github.com/D3vl0per/Valorant-watcher/issues/27
       }
 
-      if (channelsWithPriority.length > 0 ) {
-          for (let i = 0; i < channelsWithPriority.length; i++) {
-              if (streamers.includes(channelsWithPriority[i])) {
-                  watch = channelsWithPriority[i];
-                  break;
-             }
-         }
-      }
-      var sleep = getRandomInt(minWatching, maxWatching) * 60000; //Set watuching timer
-
-      console.log('\n🔗 Now watching streamer: ', baseUrl + watch);
-
-      await page.goto(baseUrl + watch, {
-        "waitUntil": "networkidle0"
-      }); //https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
-
-      await clickWhenExist(page, cookiePolicyQuery);
-      await clickWhenExist(page, matureContentQuery); //Click on accept button
-
-      if (firstRun) {
-        console.log('🔧 Setting lowest possible resolution..');
-        await clickWhenExist(page, streamPauseQuery);
-
-        await clickWhenExist(page, streamSettingsQuery);
-        await page.waitFor(streamQualitySettingQuery);
-
-        await clickWhenExist(page, streamQualitySettingQuery);
-        await page.waitFor(streamQualityQuery);
-
-        var resolution = await queryOnWebsite(page, streamQualityQuery);
-        resolution = resolution[resolution.length - 1].attribs.id;
-        await page.evaluate((resolution) => {
-          document.getElementById(resolution).click();
-        }, resolution);
-
-        await clickWhenExist(page, streamPauseQuery);
-
-        await page.keyboard.press('m'); //For unmute
-        firstRun = false;
-      }
-
-
-      if (browserScreenshot) {
-        await page.waitFor(1000);
-        fs.access(screenshotFolder, error => {
-          if (error) {
-            fs.promises.mkdir(screenshotFolder);
+      if (channelsWithPriority.length > 0) {
+        for (let i = 0; i < channelsWithPriority.length; i++) {
+          if (streamers.includes(channelsWithPriority[i])) {
+            watch = channelsWithPriority[i];
+            break;
           }
-        });
-        await page.screenshot({
-          path: `${screenshotFolder}${watch}.png`
-        });
-        console.log('📸 Screenshot created: ' + `${watch}.png`);
+        }
       }
 
-      await clickWhenExist(page, sidebarQuery); //Open sidebar
-      await page.waitFor(userStatusQuery); //Waiting for sidebar
-      let status = await queryOnWebsite(page, userStatusQuery); //status jQuery
-      await clickWhenExist(page, sidebarQuery); //Close sidebar
+      if (!watch) {
+        console.log(`❌ No channels available, retrying in ${noChannelFoundWait} minutes...`)
+        await page.waitFor(noChannelFoundWait * 60 * 1000);
+      }
+      else {
 
-      console.log('💡 Account status:', status[0] ? status[0].children[0].data : "Unknown");
-      console.log('🕒 Time: ' + dayjs().format('HH:mm:ss'));
-      console.log('💤 Watching stream for ' + sleep / 60000 + ' minutes\n');
+        var sleep = getRandomInt(minWatching, maxWatching) * 60000; //Set watuching timer
 
-      await page.waitFor(sleep);
+        console.log('\n🔗 Now watching streamer: ', baseUrl + watch);
+
+        await page.goto(baseUrl + watch, {
+          "waitUntil": "networkidle2"
+        }); //https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
+        console.log('✅ Stream loaded!');
+        await clickWhenExist(page, cookiePolicyQuery);
+        await clickWhenExist(page, matureContentQuery); //Click on accept button
+
+        if (firstRun) {
+          console.log('🔧 Setting lowest possible resolution..');
+          await clickWhenExist(page, streamPauseQuery);
+
+          await clickWhenExist(page, streamSettingsQuery);
+          await page.waitFor(streamQualitySettingQuery);
+
+          await clickWhenExist(page, streamQualitySettingQuery);
+          await page.waitFor(streamQualityQuery);
+
+          var resolution = await queryOnWebsite(page, streamQualityQuery);
+          resolution = resolution[resolution.length - 1].attribs.id;
+          await page.evaluate((resolution) => {
+            document.getElementById(resolution).click();
+          }, resolution);
+
+          await clickWhenExist(page, streamPauseQuery);
+
+          await page.keyboard.press('m'); //For unmute
+          firstRun = false;
+        }
+
+
+        if (browserScreenshot) {
+          await page.waitFor(1000);
+          fs.access(screenshotFolder, error => {
+            if (error) {
+              fs.promises.mkdir(screenshotFolder);
+            }
+          });
+          await page.screenshot({
+            path: `${screenshotFolder}${watch}.png`
+          });
+          console.log(`📸 Screenshot created: ${watch}.png`);
+        }
+
+        await clickWhenExist(page, sidebarQuery); //Open sidebar
+        await page.waitFor(userStatusQuery); //Waiting for sidebar
+        let status = await queryOnWebsite(page, userStatusQuery); //status jQuery
+        await clickWhenExist(page, sidebarQuery); //Close sidebar
+
+        console.log('💡 Account status:', status[0] ? status[0].children[0].data : "Unknown");
+        console.log(`🕒 Time: ${dayjs().format('HH:mm:ss')}`);
+        console.log(`💤 Watching stream for ${sleep / 60000} minutes\n`);
+
+        await page.waitFor(sleep);
+        if (checkForDrops) {
+          await claimDropsIfAny(page);
+        }
+
+      }
     } catch (e) {
       console.log('🤬 Error: ', e);
       console.log('Please visit the discord channel to receive help: https://discord.gg/s8AH4aZ');
@@ -162,7 +182,23 @@ async function viewRandomPage(browser, page) {
   }
 }
 
+async function claimDropsIfAny(page) {
+  console.log('🔎 Checking for drops...');
 
+  await page.goto(inventoryUrl, {
+    "waitUntil": "networkidle0"
+  }); //https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
+
+  var claimDrops = await queryOnWebsite(page, campaignInProgressDropClaimQuery);
+  if (claimDrops.length > 0) {
+    console.log(`🔎 ${claimDrops.length} drop(s) found!`);
+    for (var i = 0; i < claimDrops.length; i++) {
+      await clickWhenExist(page, campaignInProgressDropClaimQuery); // Claim drop X times based on how many drops are available
+    }
+    console.log(`✅ ${claimDrops.length} drop(s) claimed!`);
+  }
+  //
+}
 
 async function readLoginData() {
   const cookie = [{
@@ -203,7 +239,7 @@ async function readLoginData() {
 
       let input = await inquirer.askLogin();
 
-      fs.writeFile(configPath, JSON.stringify(input), function(err) {
+      fs.writeFile(configPath, JSON.stringify(input), function (err) {
         if (err) {
           console.log(err);
         }
@@ -328,7 +364,7 @@ async function clickWhenExist(page, query) {
       await page.waitFor(500);
       return;
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 
 
