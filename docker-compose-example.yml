@@ -3,7 +3,7 @@ services:
   valorant-watcher:
     #build: . #For local build
     #image: valorant-watcher:latest #For local build
-    image: d3vm/valorant-watcher:latest
+    image: frosty5689/twitch-watcher:latest
     restart: always
     environment:
       - token=rxk38rh5qtyw95fkvm7kgfceh4mh6u #Example value from readme

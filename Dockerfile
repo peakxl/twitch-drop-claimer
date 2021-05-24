@@ -1,9 +1,21 @@
-FROM node:13.12.0-alpine3.10
-LABEL maintainer="D3v <info@zsmark.dev>"
+FROM node:13-alpine
+LABEL maintainer frosty5689 <frosty5689@gmail.com>
 
-RUN apk add --no-cache chromium nss freetype freetype-dev harfbuzz ca-certificates ttf-freefont
+RUN apk add --no-cache --update \
+    chromium \
+    nss \
+    freetype \
+    freetype-dev \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    && update-ca-certificates \
+    && rm -rf /root/.cache
 
 WORKDIR /usr/src/app
+
 COPY . .
+
 RUN npm install
+
 CMD ["npm","start"]
