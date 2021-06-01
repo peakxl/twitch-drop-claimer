@@ -109,7 +109,7 @@ async function viewRandomPage(browser, page) {
 
       if (!watch) {
         console.log(`❌ No channels available, retrying in ${noChannelFoundWait} minutes...`)
-        await page.waitFor(noChannelFoundWait * 60 * 1000);
+        await page.waitForTimeout(noChannelFoundWait * 60 * 1000);
       }
       else {
 
@@ -129,10 +129,10 @@ async function viewRandomPage(browser, page) {
           await clickWhenExist(page, streamPauseQuery);
 
           await clickWhenExist(page, streamSettingsQuery);
-          await page.waitFor(streamQualitySettingQuery);
+          await page.waitForSelector(streamQualitySettingQuery);
 
           await clickWhenExist(page, streamQualitySettingQuery);
-          await page.waitFor(streamQualityQuery);
+          await page.waitForSelector(streamQualityQuery);
 
           var resolution = await queryOnWebsite(page, streamQualityQuery);
           resolution = resolution[resolution.length - 1].attribs.id;
@@ -148,7 +148,7 @@ async function viewRandomPage(browser, page) {
 
 
         if (browserScreenshot) {
-          await page.waitFor(1000);
+          await page.waitForTimeout(1000);
           fs.access(screenshotFolder, error => {
             if (error) {
               fs.promises.mkdir(screenshotFolder);
@@ -161,7 +161,7 @@ async function viewRandomPage(browser, page) {
         }
 
         await clickWhenExist(page, sidebarQuery); //Open sidebar
-        await page.waitFor(userStatusQuery); //Waiting for sidebar
+        await page.waitForSelector(userStatusQuery); //Waiting for sidebar
         let status = await queryOnWebsite(page, userStatusQuery); //status jQuery
         await clickWhenExist(page, sidebarQuery); //Close sidebar
 
@@ -169,7 +169,7 @@ async function viewRandomPage(browser, page) {
         console.log(`🕒 Time: ${dayjs().format('HH:mm:ss')}`);
         console.log(`💤 Watching stream for ${sleep / 60000} minutes\n`);
 
-        await page.waitFor(sleep);
+        await page.waitForTimeout(sleep);
         if (checkForDrops) {
           await claimDropsIfAny(page);
         }
@@ -340,7 +340,7 @@ async function scroll(page, times) {
         x[0].scrollIntoView();
       }
     });
-    await page.waitFor(scrollDelay);
+    await page.waitForTimeout(scrollDelay);
   }
   return;
 }
@@ -361,7 +361,7 @@ async function clickWhenExist(page, query) {
   try {
     if (result[0].type == 'tag' && result[0].name == 'button') {
       await page.click(query);
-      await page.waitFor(500);
+      await page.waitForTimeout(500);
       return;
     }
   } catch (e) { }

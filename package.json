@@ -13,11 +13,11 @@
     "url": "https://github.com/frosty5689/Twitch-watcher"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3",
-    "dayjs": "^1.8.24",
-    "dotenv": "^8.2.0",
-    "inquirer": "^7.1.0",
-    "puppeteer-core": "^2.1.1",
+    "cheerio": "^1.0.0-rc.9",
+    "dayjs": "^1.10.5",
+    "dotenv": "^10.0.0",
+    "inquirer": "^8.1.0",
+    "puppeteer-core": "^10.0.0",
     "tree-kill": "^1.2.2"
   }
 }
