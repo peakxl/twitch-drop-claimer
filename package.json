@@ -13,7 +13,7 @@
     "url": "https://github.com/frosty5689/Twitch-watcher"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.9",
+    "cheerio": "^1.0.0-rc.10",
     "dayjs": "^1.10.5",
     "dotenv": "^10.0.0",
     "inquirer": "^8.1.0",
