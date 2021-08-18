@@ -1,5 +1,5 @@
-FROM node:13-alpine
-LABEL maintainer frosty5689 <frosty5689@gmail.com>
+FROM node:14-alpine
+LABEL maintainer peakxl
 
 RUN apk add --no-cache --update \
     chromium \
