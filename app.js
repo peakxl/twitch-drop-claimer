@@ -58,6 +58,7 @@ var browserConfig = {
 }; //https://github.com/D3vl0per/Valorant-watcher/issues/24
 
 const cookiePolicyQuery = 'button[data-a-target="consent-banner-accept"]';
+const subPriceQuery = 'button[aria-label="Dismiss promo message"]';
 const matureContentQuery = 'button[data-a-target="player-overlay-mature-accept"]';
 const sidebarQuery = '*[data-test-selector="user-menu__toggle"]';
 const userStatusQuery = 'span[data-a-target="presence-text"]';
@@ -122,6 +123,7 @@ async function viewRandomPage(browser, page) {
         }); //https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
         console.log('✅ Stream loaded!');
         await clickWhenExist(page, cookiePolicyQuery);
+        await clickWhenExist(page, subPriceQuery); //Dismiss regional sub price message
         await clickWhenExist(page, matureContentQuery); //Click on accept button
 
         if (firstRun) {
