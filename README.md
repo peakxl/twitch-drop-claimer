@@ -1,14 +1,13 @@
-
-
-
-<h1 align="center">Twitch watcher</h1>
-<p align="center"> I spent two days watching Valorant streams to get a drop. I got bored...</p>
+<h1 align="center">Twitch Drop Claimer</h1>
+<p align="center">Watches twitch for you and claim drops automatically (with docker support)</p>
 <p align="center">
-<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/frosty5689/twitch-watcher"> <img alt="GitHub" src="https://img.shields.io/github/repo-size/frosty5689/twitch-watcher"> <img alt="GitHub repo size" src="https://img.shields.io/github/license/frosty5689/twitch-watcher"> <img alt="GitHub issues" src="https://img.shields.io/github/issues/frosty5689/twitch-watcher">
+<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/peakxl/twitch-drop-claimer"> <img alt="GitHub repo size" src="https://img.shields.io/github/license/peakxl/twitch-drop-claimer"> <img alt="GitHub issues" src="https://img.shields.io/github/issues/peakxl/twitch-drop-claimer">
 </p>
 <p align="center">
- <a href="https://asciinema.org/a/rob4Rh1EG4XFVfN4XWK67JSnf" target="_blank"><img src="https://asciinema.org/a/rob4Rh1EG4XFVfN4XWK67JSnf.svg" /></a>
-</p>
+
+WIP
+
+This project is a fork based on [D3vl0per/Twitch-watcher](https://github.com/D3vl0per/Twitch-watcher) with claim drops feature from [frosty5689](https://github.com/frosty5689/twitch-watcher).
 
 ## Features
 - 🎥 True HTTP Live Streaming support (Forget the #4000 error code)
@@ -21,16 +20,14 @@
 - 🛡 Proxy option
 - 📽 Automatic lowest possible resolution settings
 - 🧰 Highly customizable codebase
-- 📦 Deployable to VPS by docker
+- 📦 Deployable to VPS via docker
 
 ## Requirements
 
- - Windows or Linux OS
- - Network connection (Should be obvious...)
- - [Nodejs](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm)
+ - Windows or Linux with [Nodejs](https://nodejs.org/en/download/) and [NPM](https://www.npmjs.com/get-npm)
+ - Docker with docker-compose
 
 ## Installation
-🎥 [Tutorial video by Ziyad](https://youtu.be/bwzv7wT44Ds) 🎥
 ### Windows
 1. Login to your twitch account
 2. Open inspector(F12 or Ctrl+Shift+I) on main site
@@ -54,23 +51,20 @@
 
 ## Docker
 <p align="center">
-<img alt="Docker Image Version (latest by date)" src="https://img.shields.io/docker/v/frosty5689/twitch-watcher"> <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/frosty5689/twitch-watcher"> <img alt="Docker Image Size (latest by date)" src="https://img.shields.io/docker/image-size/frosty5689/twitch-watcher">
+<img alt="Docker Image Version (latest by date)" src="https://img.shields.io/docker/v/peakxy/twitch-watcher/latest"> <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/peakxy/twitch-watcher"> <img alt="Docker Image Size (latest by date)" src="https://img.shields.io/docker/image-size/peakxy/twitch-watcher/latest">
 </p>
 
-
->Docker is a set of platform as a service (PaaS) products that uses OS-level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries and configuration files. All containers are run by a single operating system kernel and therefore use fewer resources than virtual machines.
 ### Requirements
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker-Compose](https://docs.docker.com/compose/install/)
 
 ### Usage
-1. Download docker-compose-example.yml
-2. Rename docker-compose.yml
-3. Open and replace the **token** environment record
-4. Run with `docker-compose up -d` command
+1. Download docker-compose.yml
+2. Open and replace the **token** environment record
+3. Run with `docker-compose up -d` command
 ## Dependencies
 <p align="center">
-<img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/frosty5689/twitch-watcher/puppeteer-core"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/frosty5689/twitch-watcher/cheerio"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/frosty5689/twitch-watcher/inquirer"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/frosty5689/twitch-watcher/dotenv"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/frosty5689/twitch-watcher/dayjs"> <img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/frosty5689/twitch-watcher/tree-kill">
+<img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/puppeteer-core"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/cheerio"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/inquirer"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/dotenv"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/dayjs"> <img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/tree-kill">
 </p>
 
 ## Troubleshooting
@@ -87,14 +81,14 @@ Default delay:
 ```javascript
 const scrollDelay = 2000;
 ```
-[Go to code](https://github.com/frosty5689/twitch-watcher/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L15)
+[Go to code](https://github.com/peakxl/twitch-drop-claimer/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L15)
 ___
 ### Something went wrong?
 Try non-headless mode. Set headless value to `true`, like this:
 ```javascript
 const showBrowser = true;
 ```
-[Go to code](https://github.com/frosty5689/twitch-watcher/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L24)
+[Go to code](https://github.com/peakxl/twitch-drop-claimer/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L24)
 ___
 ### Proxy?
 
@@ -102,7 +96,7 @@ Yes, of course:
 ```javascript
 const proxy = ""; // "ip:port" By https://github.com/Jan710
 ```
-[Go to code](https://github.com/frosty5689/twitch-watcher/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L25)
+[Go to code](https://github.com/peakxl/twitch-drop-claimer/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L25)
 
 OR
 
@@ -115,14 +109,14 @@ ___
 ```javascript
 const browserScreenshot = false;
 ```
-[Go to code](https://github.com/frosty5689/twitch-watcher/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L27)
+[Go to code](https://github.com/peakxl/twitch-drop-claimer/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L27)
 
 ## Donation
 Please donate to keep alive this project!
 
 Especially the drop farmers who gather tons of money with this software!🤓
 
-<a href="https://www.buymeacoffee.com/frosty5689" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/peakxl" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 
 ## Disclaimer
