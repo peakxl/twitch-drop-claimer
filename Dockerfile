@@ -1,21 +1,17 @@
-FROM node:14-alpine
+FROM node:14-alpine3.14
 LABEL maintainer peakxl
 
-RUN apk add --no-cache --update \
-    chromium \
-    nss \
-    freetype \
-    freetype-dev \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont \
-    && update-ca-certificates \
-    && rm -rf /root/.cache
+ENV NODE_ENV=production
+
+RUN apk add --no-cache --update chromium nss freetype harfbuzz ca-certificates ttf-freefont dumb-init && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 
-COPY . .
+COPY package*.json .
 
-RUN npm install
+RUN npm ci --production
+
+COPY . .
 
 CMD ["npm","start"]

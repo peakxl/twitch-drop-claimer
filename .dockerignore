@@ -6,3 +6,7 @@ streamers.json
 docker-compose.yml
 actual-steamer.png
 .git
+*.md
+.github
+Dockerfile
+.gitignore
