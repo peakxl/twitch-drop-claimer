@@ -59,6 +59,7 @@ var browserConfig = {
 
 const cookiePolicyQuery = 'button[data-a-target="consent-banner-accept"]';
 const subPriceQuery = 'button[aria-label="Dismiss promo message"]';
+const subtemberQuery = 'button[aria-label="Close"]';
 const matureContentQuery = 'button[data-a-target="player-overlay-mature-accept"]';
 const sidebarQuery = '*[data-test-selector="user-menu__toggle"]';
 const userStatusQuery = 'span[data-a-target="presence-text"]';
@@ -124,6 +125,7 @@ async function viewRandomPage(browser, page) {
         console.log('✅ Stream loaded!');
         await clickWhenExist(page, cookiePolicyQuery);
         await clickWhenExist(page, subPriceQuery); //Dismiss regional sub price message
+        await clickWhenExist(page, subtemberQuery); //Dismiss subtember message
         await clickWhenExist(page, matureContentQuery); //Click on accept button
 
         if (firstRun) {
