@@ -269,6 +269,8 @@ async function getAllStreamer(page) {
     localStorage.setItem('video-quality', '{"default":"160p30"}');
     localStorage.setItem('volume', '0.0');
     localStorage.setItem('video-muted', '{"default":true}');
+    localStorage.setItem('directoryAllChannelPageSort', '"VIEWER_COUNT"');
+    localStorage.setItem('directoryGameChannelPageSort', '"VIEWER_COUNT"');
   });
   await checkLogin(page);
   console.log('📡 Checking active streamers...');
