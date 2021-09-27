@@ -18,8 +18,7 @@ const inventoryUrl = `${baseUrl}drops/inventory`;
 const userAgent = (process.env.userAgent || 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
 const streamersUrl = (process.env.streamersUrl || 'https://www.twitch.tv/directory/game/VALORANT?tl=c2542d6d-cd10-4532-919b-3d19f30a768b');
 
-const scrollDelay = (Number(process.env.scrollDelay) || 2000);
-const scrollTimes = (Number(process.env.scrollTimes) || 5);
+
 
 const minWatching = (Number(process.env.minWatching) || 15); // Minutes
 const maxWatching = (Number(process.env.maxWatching) || 30); //Minutes
@@ -274,7 +273,6 @@ async function getAllStreamer(page) {
   });
   await checkLogin(page);
   console.log('📡 Checking active streamers...');
-  await scroll(page, scrollTimes);
   const jquery = await queryOnWebsite(page, channelsQuery);
   streamers = null;
   streamers = new Array();
@@ -303,23 +301,6 @@ async function checkLogin(page) {
     fs.unlinkSync(configPath);
   }
   process.exit();
-}
-
-
-
-async function scroll(page, times) {
-  console.log('🔨 Emulating scrolling...');
-
-  for (var i = 0; i < times; i++) {
-    await page.evaluate(async (page) => {
-      var x = document.getElementsByClassName("scrollable-trigger__wrapper");
-      if (x.length > 0) { // there will be no scroll if there are no active streams
-        x[0].scrollIntoView();
-      }
-    });
-    await page.waitForTimeout(scrollDelay);
-  }
-  return;
 }
 
 
