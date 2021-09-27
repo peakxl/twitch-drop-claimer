@@ -7,7 +7,6 @@ const inquirer = require('./input');
 const treekill = require('tree-kill');
 
 var run = true;
-var firstRun = true;
 var cookie = null;
 var streamers = null;
 // ========================================== CONFIG SECTION =================================================================
@@ -58,16 +57,9 @@ var browserConfig = {
 }; //https://github.com/D3vl0per/Valorant-watcher/issues/24
 
 const cookiePolicyQuery = 'button[data-a-target="consent-banner-accept"]';
-const subPriceQuery = 'button[aria-label="Dismiss promo message"]';
-const subtemberQuery = 'button[aria-label="Close"]';
-const matureContentQuery = 'button[data-a-target="player-overlay-mature-accept"]';
 const sidebarQuery = '*[data-test-selector="user-menu__toggle"]';
 const userStatusQuery = 'span[data-a-target="presence-text"]';
 const channelsQuery = 'a[data-test-selector*="ChannelLink"]';
-const streamPauseQuery = 'button[data-a-target="player-play-pause-button"]';
-const streamSettingsQuery = '[data-a-target="player-settings-button"]';
-const streamQualitySettingQuery = '[data-a-target="player-settings-menu-item-quality"]';
-const streamQualityQuery = 'input[data-a-target="tw-radio"]';
 const campaignInProgressDropClaimQuery = '[data-test-selector="DropsCampaignInProgressRewardPresentation-claim-button"]';
 
 // ========================================== CONFIG SECTION =================================================================
@@ -83,7 +75,6 @@ async function viewRandomPage(browser, page) {
         var newSpawn = await cleanup(browser, page);
         browser = newSpawn.browser;
         page = newSpawn.page;
-        firstRun = true;
         browser_last_refresh = dayjs().add(browserClean, browserCleanUnit);
       }
 
@@ -124,32 +115,6 @@ async function viewRandomPage(browser, page) {
         }); //https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
         console.log('✅ Stream loaded!');
         await clickWhenExist(page, cookiePolicyQuery);
-        await clickWhenExist(page, subPriceQuery); //Dismiss regional sub price message
-        await clickWhenExist(page, subtemberQuery); //Dismiss subtember message
-        await clickWhenExist(page, matureContentQuery); //Click on accept button
-
-        if (firstRun) {
-          console.log('🔧 Setting lowest possible resolution..');
-          await clickWhenExist(page, streamPauseQuery);
-
-          await clickWhenExist(page, streamSettingsQuery);
-          await page.waitForSelector(streamQualitySettingQuery);
-
-          await clickWhenExist(page, streamQualitySettingQuery);
-          await page.waitForSelector(streamQualityQuery);
-
-          var resolution = await queryOnWebsite(page, streamQualityQuery);
-          resolution = resolution[resolution.length - 1].attribs.id;
-          await page.evaluate((resolution) => {
-            document.getElementById(resolution).click();
-          }, resolution);
-
-          await clickWhenExist(page, streamPauseQuery);
-
-          await page.keyboard.press('m'); //For unmute
-          firstRun = false;
-        }
-
 
         if (browserScreenshot) {
           await page.waitForTimeout(1000);
@@ -299,6 +264,12 @@ async function getAllStreamer(page) {
     "waitUntil": "networkidle0"
   });
   console.log('🔐 Checking login...');
+  await page.evaluate(() => {
+    localStorage.setItem('mature', 'true');
+    localStorage.setItem('video-quality', '{"default":"160p30"}');
+    localStorage.setItem('volume', '0.0');
+    localStorage.setItem('video-muted', '{"default":true}');
+  });
   await checkLogin(page);
   console.log('📡 Checking active streamers...');
   await scroll(page, scrollTimes);
