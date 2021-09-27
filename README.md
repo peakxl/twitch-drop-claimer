@@ -28,7 +28,24 @@ This project is a fork based on [D3vl0per/Twitch-watcher](https://github.com/D3v
  - Docker with docker-compose
 
 ## Installation
-### Windows
+## Docker (Recommended)
+<p align="center">
+<img alt="Docker Image Version (latest by date)" src="https://img.shields.io/docker/v/peakxy/twitch-watcher/latest"> <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/peakxy/twitch-watcher"> <img alt="Docker Image Size (latest by date)" src="https://img.shields.io/docker/image-size/peakxy/twitch-watcher/latest">
+</p>
+
+### Requirements
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker-Compose](https://docs.docker.com/compose/install/)
+### Usage
+1. Download docker-compose.yml
+2. Open and replace the **auth_token** environment record
+3. Run with `docker-compose up -d` command
+### Dependencies
+<p align="center">
+<img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/puppeteer-core"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/cheerio"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/dotenv"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/dayjs"> <img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/tree-kill">
+</p>
+
+## Windows
 1. Login to your twitch account
 2. Open inspector(F12 or Ctrl+Shift+I) on main site
 3. Find the stored cookie section
@@ -38,7 +55,8 @@ This project is a fork based on [D3vl0per/Twitch-watcher](https://github.com/D3v
 7. Usually the path to the Chromium executable is: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
 8. Install the dependencies with `npm install`
 9. Start the program with `npm start`
-### Linux
+
+## Linux
 1. Login to your twitch account
 2. Open inspector(F12 or Ctrl+Shift+I) on main site
 3. Find the stored cookie section
@@ -48,40 +66,10 @@ This project is a fork based on [D3vl0per/Twitch-watcher](https://github.com/D3v
 7. Locate Chromium executable: `whereis chromium` or `whereis chromium-browser`
 8. Install the dependencies with `npm install`
 9. Start the program with `npm start`
-
-## Docker
-<p align="center">
-<img alt="Docker Image Version (latest by date)" src="https://img.shields.io/docker/v/peakxy/twitch-watcher/latest"> <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/peakxy/twitch-watcher"> <img alt="Docker Image Size (latest by date)" src="https://img.shields.io/docker/image-size/peakxy/twitch-watcher/latest">
-</p>
-
-### Requirements
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker-Compose](https://docs.docker.com/compose/install/)
-
-### Usage
-1. Download docker-compose.yml
-2. Open and replace the **token** environment record
-3. Run with `docker-compose up -d` command
-## Dependencies
-<p align="center">
-<img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/puppeteer-core"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/cheerio"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/inquirer"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/dotenv"> <img alt="GitHub package.json dependency version (subfolder of monorepo)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/dayjs"> <img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/peakxl/twitch-drop-claimer/tree-kill">
-</p>
-
 ## Troubleshooting
 
 ### How does the token look like?
 auth-token: `rxk38rh5qtyw95fkvm7kgfceh4mh6u`
-___
-
-
-### Streamers.json is empty?
-
-Try again with higher delay.
-Default delay:
-```javascript
-const scrollDelay = 2000;
-```
-[Go to code](https://github.com/peakxl/twitch-drop-claimer/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L15)
 ___
 ### Something went wrong?
 Try non-headless mode. Set headless value to `true`, like this:

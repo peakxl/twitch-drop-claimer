@@ -1,22 +1,21 @@
 {
-  "name": "twitch-watcher",
+  "name": "twitch-drop-claimer",
   "version": "2.0.6",
-  "description": "Automatic watching the Twitch to get drops",
+  "description": "Watches twitch for you and claim drops automatically",
   "main": "app.js",
   "scripts": {
     "start": "node app"
   },
-  "author": "frosty5689",
+  "author": "peakxl",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/frosty5689/Twitch-watcher"
+    "url": "https://github.com/peakxl/twitch-drop-claimer"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
-    "inquirer": "^8.1.5",
     "puppeteer-core": "^10.4.0",
     "tree-kill": "^1.2.2"
   }

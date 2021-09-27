@@ -1,26 +1,22 @@
 version: '3.5'
 services:
-  twitch-watcher:
-    #build: . #For local build
-    #image: twitch-watcher:latest #For local build
+  twitch-drop-claimer:
     image: peakxy/twitch-watcher:latest
-    restart: always
+    restart: unless-stopped
     environment:
-      - token=rxk38rh5qtyw95fkvm7kgfceh4mh6u #Example value from readme
-      #- streamersUrl=https://www.twitch.tv/directory/game/Tom%20Clancy%27s%20Rainbow%20Six%20Siege?tl=c2542d6d-cd10-4532-919b-3d19f30a768b
-      #- watchAlwaysTopStreamer=true
+      - auth_token=rxk38rh5qtyw95fkvm7kgfceh4mh6u #Example value from readme
+      - category=Tom%20Clancy's%20Rainbow%20Six%20Siege
+      - watchAlwaysTopStreamer=true
+      - claimDrops=true
       #- channelsWithPriority=illojuan,alexby11,aroyitt
+      #- noChannelFoundWait=5
       #- userAgent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36
-      #- minWatching=6
-      #- maxWatching=15
-      #- streamerListRefres=2
+      #- minWatching=15
+      #- maxWatching=30
+      #- streamerListRefresh=2
       #- streamerListRefreshUnit=hour
       #- browserScreenshot=false
       #- proxy=ip:port
       #- proxyAuth=username:password
     #volumes:
     #  - "./screenshots:/usr/src/app/screenshots"
-    #deploy:
-      #resources:
-        #limits:
-          #cpus: '0.2' #Use this option with "docker-compose --compatibility up -d" to limit cpu usage

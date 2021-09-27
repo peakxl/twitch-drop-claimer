@@ -3,29 +3,25 @@ const puppeteer = require('puppeteer-core');
 const dayjs = require('dayjs');
 const cheerio = require('cheerio');
 var fs = require('fs');
-const inquirer = require('./input');
 const treekill = require('tree-kill');
 
 var run = true;
 var cookie = null;
 var streamers = null;
 // ========================================== CONFIG SECTION =================================================================
-const configPath = './config.json'
 const screenshotFolder = './screenshots/';
 const baseUrl = 'https://www.twitch.tv/';
 const inventoryUrl = `${baseUrl}drops/inventory`;
 
 const userAgent = (process.env.userAgent || 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
-const streamersUrl = (process.env.streamersUrl || 'https://www.twitch.tv/directory/game/VALORANT?tl=c2542d6d-cd10-4532-919b-3d19f30a768b');
-
-
+const categoryUrl = "https://www.twitch.tv/directory/game/" + process.env.category + "?tl=c2542d6d-cd10-4532-919b-3d19f30a768b";
 
 const minWatching = (Number(process.env.minWatching) || 15); // Minutes
 const maxWatching = (Number(process.env.maxWatching) || 30); //Minutes
 
 const noChannelFoundWait = (Number(process.env.noChannelFoundWait) || 5); // Minutes
 
-const checkForDrops = (process.env.checkForDrops || true);
+const claimDrops = (process.env.claimDrops || true);
 
 const streamerListRefresh = (Number(process.env.streamerListRefresh) || 1);
 const streamerListRefreshUnit = (process.env.streamerListRefreshUnit || 'hour'); //https://day.js.org/docs/en/manipulate/add
@@ -33,7 +29,8 @@ const streamerListRefreshUnit = (process.env.streamerListRefreshUnit || 'hour');
 const channelsWithPriority = process.env.channelsWithPriority ? process.env.channelsWithPriority.split(",") : [];
 const watchAlwaysTopStreamer = (process.env.watchAlwaysTopStreamer || false);
 
-const showBrowser = false; // false state equ headless mode;
+const showBrowser = false; // false state equ headless mode
+const browserPath = (process.env.browserPath || '/usr/bin/chromium-browser')
 const proxy = (process.env.proxy || ""); // "ip:port" By https://github.com/Jan710
 const proxyAuth = (process.env.proxyAuth || "");
 
@@ -138,7 +135,7 @@ async function viewRandomPage(browser, page) {
         console.log(`💤 Watching stream for ${sleep / 60000} minutes\n`);
 
         await page.waitForTimeout(sleep);
-        if (checkForDrops) {
+        if (claimDrops) {
           await claimDropsIfAny(page);
         }
 
@@ -182,40 +179,14 @@ async function readLoginData() {
     "id": 1
   }];
   try {
-    console.log('🔎 Checking config file...');
+    console.log('🔎 Checking env...');
 
-    if (fs.existsSync(configPath)) {
-      console.log('✅ Json config found!');
-
-      let configFile = JSON.parse(fs.readFileSync(configPath, 'utf8'))
-
+    if (process.env.auth_token) {
+      console.log('✅ Cookie found!');
+      
       if (proxy) browserConfig.args.push('--proxy-server=' + proxy);
-      browserConfig.executablePath = configFile.exec;
-      cookie[0].value = configFile.token;
-
-      return cookie;
-    } else if (process.env.token) {
-      console.log('✅ Env config found');
-
-      if (proxy) browserConfig.args.push('--proxy-server=' + proxy);
-      cookie[0].value = process.env.token; //Set cookie from env
-      browserConfig.executablePath = '/usr/bin/chromium-browser'; //For docker container
-
-      return cookie;
-    } else {
-      console.log('❌ No config file found!');
-
-      let input = await inquirer.askLogin();
-
-      fs.writeFile(configPath, JSON.stringify(input), function (err) {
-        if (err) {
-          console.log(err);
-        }
-      });
-
-      if (proxy) browserConfig.args[6] = '--proxy-server=' + proxy;
-      browserConfig.executablePath = input.exec;
-      cookie[0].value = input.token;
+      cookie[0].value = process.env.auth_token; //Set cookie from env
+      browserConfig.executablePath = browserPath; //Set browser path from env
 
       return cookie;
     }
@@ -259,7 +230,7 @@ async function spawnBrowser() {
 
 async function getAllStreamer(page) {
   console.log("=========================");
-  await page.goto(streamersUrl, {
+  await page.goto(categoryUrl, {
     "waitUntil": "networkidle0"
   });
   console.log('🔐 Checking login...');
@@ -297,9 +268,6 @@ async function checkLogin(page) {
   console.log('🛑 Login failed!');
   console.log('🔑 Invalid token!');
   console.log('\nPleas ensure that you have a valid twitch auth-token.\nhttps://github.com/D3vl0per/Valorant-watcher#how-token-does-it-look-like');
-  if (!process.env.token) {
-    fs.unlinkSync(configPath);
-  }
   process.exit();
 }
 
