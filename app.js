@@ -142,7 +142,6 @@ async function viewRandomPage(browser, page) {
       }
     } catch (e) {
       console.log('🤬 Error: ', e);
-      console.log('Please visit the discord channel to receive help: https://discord.gg/s8AH4aZ');
     }
   }
 }
@@ -192,7 +191,6 @@ async function readLoginData() {
     }
   } catch (err) {
     console.log('🤬 Error: ', e);
-    console.log('Please visit my discord channel to solve this problem: https://discord.gg/s8AH4aZ');
   }
 }
 
@@ -267,7 +265,7 @@ async function checkLogin(page) {
   }
   console.log('🛑 Login failed!');
   console.log('🔑 Invalid token!');
-  console.log('\nPleas ensure that you have a valid twitch auth-token.\nhttps://github.com/D3vl0per/Valorant-watcher#how-token-does-it-look-like');
+  console.log('\nPlease ensure that you have a valid twitch auth-token.\nhttps://github.com/D3vl0per/Valorant-watcher#how-token-does-it-look-like');
   process.exit();
 }
 
