@@ -15,7 +15,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "dayjs": "^1.10.7",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.0",
     "puppeteer-core": "^13.5.2",
     "tree-kill": "^1.2.2"
   }
