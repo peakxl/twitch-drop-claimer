@@ -1,4 +1,4 @@
-FROM node:14-alpine3.14
+FROM node:16-alpine
 LABEL maintainer peakxl
 
 ENV NODE_ENV=production
