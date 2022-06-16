@@ -53,8 +53,6 @@ var browserConfig = {
 }; //https://github.com/D3vl0per/Valorant-watcher/issues/24
 
 const cookiePolicyQuery = 'button[data-a-target="consent-banner-accept"]';
-const sidebarQuery = '*[data-test-selector="user-menu__toggle"]';
-const userStatusQuery = 'span[data-a-target="presence-text"]';
 const channelsQuery = 'a[data-a-target="preview-card-image-link"]';
 const campaignInProgressDropClaimQuery = '[data-test-selector="DropsCampaignInProgressRewardPresentation-claim-button"]';
 
@@ -125,12 +123,6 @@ async function viewRandomPage(browser, page) {
           console.log(`📸 Screenshot created: ${watch}.png`);
         }
 
-        await clickWhenExist(page, sidebarQuery); //Open sidebar
-        await page.waitForSelector(userStatusQuery); //Waiting for sidebar
-        let status = await queryOnWebsite(page, userStatusQuery); //status jQuery
-        await clickWhenExist(page, sidebarQuery); //Close sidebar
-
-        console.log('💡 Account status:', status[0] ? status[0].children[0].data : "Unknown");
         console.log(`🕒 Time: ${dayjs().format('HH:mm:ss')}`);
         console.log(`💤 Watching stream for ${sleep / 60000} minutes\n`);
 
