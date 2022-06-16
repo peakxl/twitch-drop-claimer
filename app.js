@@ -104,7 +104,7 @@ async function viewRandomPage(browser, page) {
 
         var sleep = getRandomInt(minWatching, maxWatching) * 60000; //Set watuching timer
 
-        console.log('\n🔗 Now watching streamer: ', baseUrl + watch);
+        console.log('🔗 Now watching streamer: ', baseUrl + watch);
 
         await page.goto(baseUrl + watch, {
           "waitUntil": "networkidle2"
