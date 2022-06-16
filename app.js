@@ -55,7 +55,7 @@ var browserConfig = {
 const cookiePolicyQuery = 'button[data-a-target="consent-banner-accept"]';
 const sidebarQuery = '*[data-test-selector="user-menu__toggle"]';
 const userStatusQuery = 'span[data-a-target="presence-text"]';
-const channelsQuery = 'a[data-test-selector*="ChannelLink"]';
+const channelsQuery = 'a[data-a-target="preview-card-image-link"]';
 const campaignInProgressDropClaimQuery = '[data-test-selector="DropsCampaignInProgressRewardPresentation-claim-button"]';
 
 // ========================================== CONFIG SECTION =================================================================
