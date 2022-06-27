@@ -13,7 +13,7 @@
     "url": "https://github.com/peakxl/twitch-drop-claimer"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.11",
+    "cheerio": "^1.0.0-rc.12",
     "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
     "puppeteer-core": "^14.4.0",
