@@ -7,6 +7,11 @@
     {
       "matchPackagePatterns": ["eslint"],
       "groupName": "eslint"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchPackagePatterns": ["lint", "prettier"],
+      "automerge": true
     }
   ]
 }
