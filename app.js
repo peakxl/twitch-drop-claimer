@@ -15,7 +15,7 @@ const inventoryUrl = `${baseUrl}drops/inventory`;
 
 const userAgent = process.env.userAgent
   || 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36';
-const categoryUrl = `https://www.twitch.tv/directory/game/${process.env.category}?tl=DropsEnabled`;
+const categoryUrl = `https://www.twitch.tv/directory/game/${encodeURIComponent(process.env.category)}?tl=DropsEnabled`;
 
 const minWatching = Number(process.env.minWatching) || 15; // Minutes
 const maxWatching = Number(process.env.maxWatching) || 30; // Minutes
