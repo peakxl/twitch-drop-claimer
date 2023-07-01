@@ -11,7 +11,8 @@
     {
       "matchDepTypes": ["devDependencies"],
       "matchPackagePatterns": ["lint", "prettier"],
-      "automerge": true
+      "automerge": true,
+      "ignoreTests": true
     }
   ]
 }
