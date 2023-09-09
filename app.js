@@ -1,8 +1,8 @@
 require('dotenv').config();
+const fs = require('fs');
 const puppeteer = require('puppeteer-core');
 const dayjs = require('dayjs');
 const cheerio = require('cheerio');
-const fs = require('fs');
 const treekill = require('tree-kill');
 
 let run = true;
@@ -15,7 +15,8 @@ const inventoryUrl = `${baseUrl}drops/inventory`;
 
 const userAgent = process.env.userAgent
   || 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36';
-const categoryUrl = `https://www.twitch.tv/directory/game/${encodeURIComponent(process.env.category)}?tl=DropsEnabled`;
+const category = sanitizeCategory(process.env.category);
+const categoryUrl = `https://www.twitch.tv/directory/category/${category}?tl=DropsEnabled`;
 
 const minWatching = Number(process.env.minWatching) || 15; // Minutes
 const maxWatching = Number(process.env.maxWatching) || 30; // Minutes
@@ -59,6 +60,12 @@ const channelsQuery = 'a[data-a-target="preview-card-image-link"]';
 const campaignInProgressDropClaimQuery = '[data-test-selector="DropsCampaignInProgressRewardPresentation-claim-button"]';
 
 // ========================== CONFIG SECTION ==========================
+
+function sanitizeCategory(category) {
+  category = category.replace(/^"|"$/g, '');
+  category = decodeURIComponent(category);
+  return encodeURIComponent(category);
+}
 
 async function viewRandomPage(browser, page) {
   let streamerLastRefresh = dayjs().add(
