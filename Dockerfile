@@ -1,16 +1,18 @@
 FROM node:18-alpine
-LABEL maintainer peakxl
 
 ENV NODE_ENV=production
 
-RUN apk add --no-cache --update chromium nss freetype harfbuzz ca-certificates ttf-freefont dumb-init && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && apk add --no-cache \
+    chromium \
+    ca-certificates \
+    dumb-init \
+    && rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package*.json .
 
 RUN npm ci --production
 
