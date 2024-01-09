@@ -70,9 +70,9 @@ const channelsQuery = {
   }
 };
 const claimDropQuery = {
-  selector: '//div[contains(., "Claim Now")]/ancestor::button',
+  xpath: '//div[contains(text(), "Claim Now")]/ancestor::button',
   queryFunc: function($) {
-    return $('div:contains("Claim Now")').closest('button');
+    return $('button').has('div:contains("Claim Now")');
   }
 };
 
@@ -303,7 +303,14 @@ async function clickWhenExist(page, query) {
 
   try {
     if (result[0].type === 'tag' && result[0].name === 'button') {
-      await page.click(query.selector);
+      if (query.xpath) {
+        const elements = await page.$x(query.xpath);
+        for (let i = 0; i < elements.length; i++) {
+          await elements[i].click();
+        }
+      } else {
+        await page.click(query.selector);
+      }
       await page.waitForTimeout(500);
     }
   } catch (e) {}
