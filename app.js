@@ -305,9 +305,7 @@ async function clickWhenExist(page, query) {
     if (result[0].type === 'tag' && result[0].name === 'button') {
       if (query.xpath) {
         const elements = await page.$x(query.xpath);
-        for (let i = 0; i < elements.length; i++) {
-          await elements[i].click();
-        }
+        await elements[0].click();
       } else {
         await page.click(query.selector);
       }
