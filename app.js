@@ -55,9 +55,26 @@ const browserConfig = {
   ],
 }; // https://github.com/D3vl0per/Valorant-watcher/issues/24
 
-const cookiePolicyQuery = 'button[data-a-target="consent-banner-accept"]';
-const channelsQuery = 'a[data-a-target="preview-card-image-link"]';
-const campaignInProgressDropClaimQuery = '[data-test-selector="DropsCampaignInProgressRewardPresentation-claim-button"]';
+const cookiePolicyQueryStr = 'button[data-a-target="consent-banner-accept"]';
+const cookiePolicyQuery = {
+  selector: cookiePolicyQueryStr,
+  queryFunc: function($) {
+    return $(cookiePolicyQueryStr);
+  }
+};
+const channelsQueryStr = 'a[data-a-target="preview-card-image-link"]';
+const channelsQuery = {
+  selector: channelsQueryStr,
+  queryFunc: function($) {
+    return $(channelsQueryStr);
+  }
+};
+const claimDropQuery = {
+  selector: '//div[contains(., "Claim Now")]/ancestor::button',
+  queryFunc: function($) {
+    return $('div:contains("Claim Now")').closest('button');
+  }
+};
 
 // ========================== CONFIG SECTION ==========================
 
@@ -157,15 +174,12 @@ async function claimDropsIfAny(page) {
     waitUntil: 'networkidle0',
   }); // https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
 
-  const drops = await queryOnWebsite(
-    page,
-    campaignInProgressDropClaimQuery,
-  );
+  const drops = await queryOnWebsite(page, claimDropQuery);
   if (drops.length > 0) {
     console.log(`🔎 ${drops.length} drop(s) found!`);
     for (let i = 0; i < drops.length; i += 1) {
       // Claim drop X times based on how many drops are available
-      await clickWhenExist(page, campaignInProgressDropClaimQuery);
+      await clickWhenExist(page, claimDropQuery);
     }
     console.log(`✅ ${drops.length} drop(s) claimed!`);
   }
@@ -289,7 +303,7 @@ async function clickWhenExist(page, query) {
 
   try {
     if (result[0].type === 'tag' && result[0].name === 'button') {
-      await page.click(query);
+      await page.click(query.selector);
       await page.waitForTimeout(500);
     }
   } catch (e) {}
@@ -298,7 +312,7 @@ async function clickWhenExist(page, query) {
 async function queryOnWebsite(page, query) {
   const bodyHTML = await page.evaluate(() => document.body.innerHTML);
   const $ = cheerio.load(bodyHTML);
-  const jquery = $(query);
+  const jquery = query.queryFunc($);
   return jquery;
 }
 
