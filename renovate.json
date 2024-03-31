@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
   "packageRules": [
     {
       "matchPackagePatterns": ["eslint"],
@@ -13,6 +11,10 @@
       "matchPackagePatterns": ["lint", "prettier"],
       "automerge": true,
       "ignoreTests": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions"
     }
   ]
 }
