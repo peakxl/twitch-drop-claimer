@@ -15,8 +15,13 @@ const inventoryUrl = `${baseUrl}drops/inventory`;
 
 const userAgent = process.env.userAgent
   || 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36';
+
+const watchAlwaysTopStreamer = process.env.watchAlwaysTopStreamer || false;
 const category = sanitizeCategory(process.env.category);
-const categoryUrl = `https://www.twitch.tv/directory/category/${category}?tl=DropsEnabled`;
+let categoryUrl = `https://www.twitch.tv/directory/category/${category}?tl=DropsEnabled`;
+if (watchAlwaysTopStreamer) {
+  categoryUrl += '&sort=VIEWER_COUNT';
+}
 
 const minWatching = Number(process.env.minWatching) || 15; // Minutes
 const maxWatching = Number(process.env.maxWatching) || 30; // Minutes
@@ -31,7 +36,6 @@ const streamerListRefreshUnit = process.env.streamerListRefreshUnit || 'hour'; /
 const channelsWithPriority = process.env.channelsWithPriority
   ? process.env.channelsWithPriority.split(',')
   : [];
-const watchAlwaysTopStreamer = process.env.watchAlwaysTopStreamer || false;
 
 const browserPath = process.env.browserPath || '/usr/bin/chromium-browser';
 const proxy = process.env.proxy || ''; // "ip:port" By https://github.com/Jan710
