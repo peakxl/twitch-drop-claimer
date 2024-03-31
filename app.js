@@ -111,7 +111,9 @@ async function viewRandomPage(browser, page) {
         console.log(
           `❌ No channels available, retrying in ${noChannelFoundWait} minutes...`,
         );
-        await page.waitForTimeout(noChannelFoundWait * 60 * 1000);
+        await new Promise((r) => {
+          setTimeout(r, noChannelFoundWait * 60 * 1000);
+        });
       } else {
         const sleep = getRandomInt(minWatching, maxWatching) * 60000; // Set watuching timer
 
@@ -124,7 +126,9 @@ async function viewRandomPage(browser, page) {
         await clickWhenExist(page, cookiePolicyQuery);
 
         if (browserScreenshot) {
-          await page.waitForTimeout(1000);
+          await new Promise((r) => {
+            setTimeout(r, 1000);
+          });
           fs.access(screenshotFolder, (error) => {
             if (error) {
               fs.promises.mkdir(screenshotFolder);
@@ -139,7 +143,9 @@ async function viewRandomPage(browser, page) {
         console.log(`🕒 Time: ${dayjs().format('HH:mm:ss')}`);
         console.log(`💤 Watching stream for ${sleep / 60000} minutes\n`);
 
-        await page.waitForTimeout(sleep);
+        await new Promise((r) => {
+          setTimeout(r, sleep);
+        });
         if (claimDrops) {
           await claimDropsIfAny(page);
         }
@@ -157,10 +163,7 @@ async function claimDropsIfAny(page) {
     waitUntil: 'networkidle0',
   }); // https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
 
-  const drops = await queryOnWebsite(
-    page,
-    campaignInProgressDropClaimQuery,
-  );
+  const drops = await queryOnWebsite(page, campaignInProgressDropClaimQuery);
   if (drops.length > 0) {
     console.log(`🔎 ${drops.length} drop(s) found!`);
     for (let i = 0; i < drops.length; i += 1) {
@@ -290,7 +293,9 @@ async function clickWhenExist(page, query) {
   try {
     if (result[0].type === 'tag' && result[0].name === 'button') {
       await page.click(query);
-      await page.waitForTimeout(500);
+      await new Promise((r) => {
+        setTimeout(r, 500);
+      });
     }
   } catch (e) {}
 }
