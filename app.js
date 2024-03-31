@@ -43,7 +43,7 @@ const browserClean = 1;
 const browserCleanUnit = 'hour';
 
 const browserConfig = {
-  headless: 'new',
+  headless: true,
   args: [
     '--disable-dev-shm-usage',
     '--disable-accelerated-2d-canvas',
