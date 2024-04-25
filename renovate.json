@@ -3,16 +3,6 @@
   "extends": ["config:base"],
   "packageRules": [
     {
-      "matchPackagePatterns": ["eslint"],
-      "groupName": "eslint"
-    },
-    {
-      "matchDepTypes": ["devDependencies"],
-      "matchPackagePatterns": ["lint", "prettier"],
-      "automerge": true,
-      "ignoreTests": true
-    },
-    {
       "matchManagers": ["github-actions"],
       "groupName": "github-actions"
     }
