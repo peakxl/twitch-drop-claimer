@@ -18,7 +18,7 @@ const userAgent = process.env.userAgent
 
 const watchAlwaysTopStreamer = process.env.watchAlwaysTopStreamer || false;
 const category = sanitizeCategory(process.env.category);
-let categoryUrl = `https://www.twitch.tv/directory/category/${category}?tl=DropsEnabled`;
+let categoryUrl = `https://www.twitch.tv/directory/category/${category}?filter=drops`;
 if (watchAlwaysTopStreamer) {
   categoryUrl += '&sort=VIEWER_COUNT';
 }
@@ -59,7 +59,7 @@ const browserConfig = {
   ],
 }; // https://github.com/D3vl0per/Valorant-watcher/issues/24
 
-const cookiePolicyQuery = 'button[data-a-target="consent-banner-accept"]';
+const matureContentQuery = 'button[data-a-target="content-classification-gate-overlay-start-watching-button"]';
 const channelsQuery = 'a[data-a-target="preview-card-image-link"]';
 const campaignInProgressDropClaimQuery = '[data-test-selector="DropsCampaignInProgressRewardPresentation-claim-button"]';
 
@@ -120,15 +120,12 @@ async function viewRandomPage(browser, page) {
         });
       } else {
         const sleep = getRandomInt(minWatching, maxWatching) * 60000; // Set watuching timer
-
-        console.log('🔗 Now watching streamer: ', baseUrl + watch);
-
         await page.goto(baseUrl + watch, {
           waitUntil: 'networkidle2',
         }); // https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
+        await clickWhenExist(page, matureContentQuery);
+        console.log('🔗 Now watching streamer: ', baseUrl + watch);
         console.log('✅ Stream loaded!');
-        await clickWhenExist(page, cookiePolicyQuery);
-
         if (browserScreenshot) {
           await new Promise((r) => {
             setTimeout(r, 1000);
@@ -249,7 +246,6 @@ async function getAllStreamer(page) {
   });
   console.log('🔐 Checking login...');
   await page.evaluate(() => {
-    localStorage.setItem('mature', 'true');
     localStorage.setItem('video-quality', '{"default":"160p30"}');
     localStorage.setItem('volume', '0.0');
     localStorage.setItem('video-muted', '{"default":true}');
