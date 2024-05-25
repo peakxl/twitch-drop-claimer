@@ -88,7 +88,6 @@ async function viewRandomPage(browser, page) {
         page = newSpawn.page;
         browserLastRefresh = dayjs().add(browserClean, browserCleanUnit);
         browser = newBrowser;
-        ß;
       }
 
       if (dayjs(streamerLastRefresh).isBefore(dayjs())) {
