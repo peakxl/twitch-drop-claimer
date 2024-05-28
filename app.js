@@ -18,7 +18,7 @@ const userAgent =
 	"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
 
 const watchAlwaysTopStreamer = process.env.watchAlwaysTopStreamer === "true";
-let categoryUrl = `https://www.twitch.tv/directory/category/${process.env.category}?filter=drops`;
+let categoryUrl = `https://www.twitch.tv/directory/category/${process.env.category}/list?filter=drops`;
 if (watchAlwaysTopStreamer) {
 	categoryUrl += "&sort=VIEWER_COUNT";
 }
