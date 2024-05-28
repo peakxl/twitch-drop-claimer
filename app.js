@@ -29,7 +29,7 @@ const maxWatching = Number(process.env.maxWatching) || 30; // Minutes
 
 const noChannelFoundWait = Number(process.env.noChannelFoundWait) || 5; // Minutes
 
-const claimDrops = process.env.claimDrops || true;
+const checkDrops = process.env.checkDrops !== "false";
 
 const streamerListRefresh = Number(process.env.streamerListRefresh) || 1;
 const streamerListRefreshUnit = process.env.streamerListRefreshUnit || "hour"; // https://day.js.org/docs/en/manipulate/add
@@ -63,8 +63,7 @@ const browserConfig = {
 const matureContentQuery =
   'button[data-a-target="content-classification-gate-overlay-start-watching-button"]';
 const channelsQuery = 'a[data-a-target="preview-card-image-link"]';
-const campaignInProgressDropClaimQuery =
-  '[data-test-selector="DropsCampaignInProgressRewardPresentation-claim-button"]';
+const campaignInProgressDropClaimQuery = "button.caieTg";
 
 // ========================== CONFIG SECTION ==========================
 
@@ -151,9 +150,9 @@ async function viewRandomPage(browser, page) {
         await new Promise((r) => {
           setTimeout(r, sleep);
         });
-        if (claimDrops) {
-          await claimDropsIfAny(page);
-        }
+        if (checkDrops) {
+									await checkDropsIfAny(page);
+								}
       }
     } catch (e) {
       console.log("🤬 Error: ", e);
@@ -161,23 +160,21 @@ async function viewRandomPage(browser, page) {
   }
 }
 
-async function claimDropsIfAny(page) {
-  console.log("🔎 Checking for drops...");
+async function checkDropsIfAny(page) {
+	console.log("🔎 Checking for drops...");
 
-  await page.goto(inventoryUrl, {
-    waitUntil: "networkidle0",
-  }); // https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pagegobackoptions
-
-  const drops = await queryOnWebsite(page, campaignInProgressDropClaimQuery);
-  if (drops.length > 0) {
-    console.log(`🔎 ${drops.length} drop(s) found!`);
-    for (let i = 0; i < drops.length; i += 1) {
-      // Claim drop X times based on how many drops are available
-      await clickWhenExist(page, campaignInProgressDropClaimQuery);
-    }
-    console.log(`✅ ${drops.length} drop(s) claimed!`);
-  }
-  //
+	await page.goto(inventoryUrl);
+	page.waitForSelector(".inventory-campaign-info");
+	const drops = await queryOnWebsite(page, campaignInProgressDropClaimQuery);
+	if (drops.length > 0) {
+		console.log(`🔎 ${drops.length} drop(s) found!`);
+		for (let i = 0; i < drops.length; i += 1) {
+			// Claim drop X times based on how many drops are available
+			await clickWhenExist(page, campaignInProgressDropClaimQuery);
+		}
+		//    console.log(`✅ ${drops.length} drop(s) claimed!`);
+	}
+	//
 }
 
 async function readLoginData() {

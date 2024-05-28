@@ -5,9 +5,9 @@ services:
     restart: unless-stopped
     environment:
       - auth_token=rxk38rh5qtyw95fkvm7kgfceh4mh6u #Example value from readme
-      - category=Tom Clancy's Rainbow Six Siege
+      - category=rust
       - watchAlwaysTopStreamer=true
-      - claimDrops=true
+      - checkDrops=true
       #- channelsWithPriority=illojuan,alexby11,aroyitt
       #- noChannelFoundWait=5
       #- userAgent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36
