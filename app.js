@@ -159,7 +159,9 @@ async function checkDropsIfAny(page) {
 	console.log("🔎 Checking for drops...");
 
 	await page.goto(inventoryUrl);
-	page.waitForSelector(".inventory-campaign-info");
+	await new Promise((r) => {
+		setTimeout(r, 5000);
+	});
 	const drops = await queryOnWebsite(page, campaignInProgressDropClaimQuery);
 	if (drops.length > 0) {
 		console.log(`🔎 ${drops.length} drop(s) found!`);
