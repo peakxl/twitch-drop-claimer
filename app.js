@@ -17,7 +17,7 @@ const userAgent =
   process.env.userAgent ||
   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
 
-const watchAlwaysTopStreamer = process.env.watchAlwaysTopStreamer || false;
+const watchAlwaysTopStreamer = process.env.watchAlwaysTopStreamer === "true";
 const category = sanitizeCategory(process.env.category);
 let categoryUrl = `https://www.twitch.tv/directory/category/${category}?filter=drops`;
 if (watchAlwaysTopStreamer) {
@@ -42,7 +42,7 @@ const browserPath = process.env.browserPath || "/usr/bin/chromium-browser";
 const proxy = process.env.proxy || ""; // "ip:port" By https://github.com/Jan710
 const proxyAuth = process.env.proxyAuth || "";
 
-const browserScreenshot = process.env.browserScreenshot || false;
+const browserScreenshot = process.env.browserScreenshot === "true";
 
 const browserClean = 1;
 const browserCleanUnit = "hour";
