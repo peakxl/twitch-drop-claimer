@@ -48,7 +48,7 @@ const browserClean = 1;
 const browserCleanUnit = "hour";
 
 const browserConfig = {
-  headless: true,
+	headless: process.env.headless !== "false",
   args: [
     "--disable-dev-shm-usage",
     "--disable-accelerated-2d-canvas",
