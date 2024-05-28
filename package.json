@@ -1,6 +1,6 @@
 {
   "name": "twitch-drop-claimer",
-  "version": "2.0.6",
+  "version": "3.0.0",
   "description": "Watches twitch for you and claim drops automatically",
   "main": "app.js",
   "scripts": {
