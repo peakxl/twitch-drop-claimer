@@ -18,8 +18,7 @@ const userAgent =
   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
 
 const watchAlwaysTopStreamer = process.env.watchAlwaysTopStreamer === "true";
-const category = sanitizeCategory(process.env.category);
-let categoryUrl = `https://www.twitch.tv/directory/category/${category}?filter=drops`;
+let categoryUrl = `https://www.twitch.tv/directory/category/${process.env.category}?filter=drops`;
 if (watchAlwaysTopStreamer) {
   categoryUrl += "&sort=VIEWER_COUNT";
 }
@@ -66,12 +65,6 @@ const channelsQuery = 'a[data-a-target="preview-card-image-link"]';
 const campaignInProgressDropClaimQuery = "button.caieTg";
 
 // ========================== CONFIG SECTION ==========================
-
-function sanitizeCategory(category) {
-  let sanitizedCategory = category.replace(/^"|"$/g, "");
-  sanitizedCategory = decodeURIComponent(sanitizedCategory);
-  return encodeURIComponent(sanitizedCategory);
-}
 
 async function viewRandomPage(browser, page) {
   let streamerLastRefresh = dayjs().add(

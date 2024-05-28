@@ -5,13 +5,12 @@
 </p>
 <p align="center">
 
-WIP
 
-This project is a fork based on [D3vl0per/Twitch-watcher](https://github.com/D3vl0per/Twitch-watcher) with claim drops feature from [frosty5689](https://github.com/frosty5689/twitch-watcher).
+This project is a fork based on [D3vl0per/Twitch-watcher](https://github.com/D3vl0per/Twitch-watcher) with claim drops feature from [frosty5689](https://github.com/frosty5689/twitch-watcher). Claim drops is currently broken with no ETA to fix.
 
 ## Features
 - 🎥 True HTTP Live Streaming support (Forget the #4000 error code)
-- 📦 Periodically check for drops and claim them
+- 📦 Periodically check for drops
 - 🔐 Cookie-based login
 - 📜 Auto accept cookie policy
 - 👨‍💻 The choice of a random streamer with drop-enabled tag
@@ -71,12 +70,25 @@ This project is a fork based on [D3vl0per/Twitch-watcher](https://github.com/D3v
 ### How does the token look like?
 auth-token: `rxk38rh5qtyw95fkvm7kgfceh4mh6u`
 ___
+### How to get the correct category name?
+Click on the avatar on top-right, go to "Drops & Rewards".
+
+On "Inventory" page, find the game click on "a participating live channel". Copy the last part of the url as category.
+
+Altenatively, go to "All Campaigns". Find the game and click on "a participating live channel" or "more" at the end of streamers list. Copy the last part of the url as category.
+
+Some examples of category names:
+- rust
+- lost-ark
+- honkai-star-rail
+- ea-sports-fc-24
+- tom-clancys-rainbow-six-siege
+___
 ### Something went wrong?
 Try non-headless mode. Set headless value to `true`, like this:
 ```javascript
 const showBrowser = true;
 ```
-[Go to code](https://github.com/peakxl/twitch-drop-claimer/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L24)
 ___
 ### Proxy?
 
@@ -84,7 +96,6 @@ Yes, of course:
 ```javascript
 const proxy = ""; // "ip:port" By https://github.com/Jan710
 ```
-[Go to code](https://github.com/peakxl/twitch-drop-claimer/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L25)
 
 OR
 
@@ -97,7 +108,6 @@ ___
 ```javascript
 const browserScreenshot = false;
 ```
-[Go to code](https://github.com/peakxl/twitch-drop-claimer/blob/12dce8065423861971b7088563ad936b2dcc2559/app.js#L27)
 
 ## Donation
 Please donate to keep alive this project!
